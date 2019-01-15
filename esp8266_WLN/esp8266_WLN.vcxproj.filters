@@ -16,6 +16,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="esp8266_WLN.ino" />
+    <None Include="wifiServer_WLN.ino" />
+    <None Include="ad104_WLN.ino" />
+    <None Include="webServer_WLN.ino" />
   </ItemGroup>
- 
+  <ItemGroup>
+    <ClInclude Include="__vm\.esp8266_WLN.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
