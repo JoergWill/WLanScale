@@ -108,6 +108,7 @@ typedef long __PTRDIFF_TYPE__;
 #define noInterrupts() cli()
 
 #include "esp8266_WLN.ino"
+#include "accu_WLN.ino"
 #include "ad104_WLN.ino"
 #include "webServer_WLN.ino"
 #include "wifiServer_WLN.ino"

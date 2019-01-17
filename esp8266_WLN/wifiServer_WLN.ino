@@ -53,6 +53,7 @@ void loopTcpIP() {
 	if (alreadyConnected && (timeout > 0) && ((millis() - timeout_wifiserver) > timeout)) {
 		Serial.print("TimeOut ");
 		closeConnection();
+		winbackOffline = true;
 	}
 }
 
@@ -61,6 +62,7 @@ void SendData() {
 		timeout_wifiserver = millis();  // reset timer if we have incoming data
 		client.flush(); 			   // NOTE: client.readString braucht >1 Sekunde !!!
 		DataOK = true;
+		winbackOffline = false;
 		//Logger.Log(LOGLEVEL_DEBUG, "MSV?; ");
 	}
 	else {
@@ -95,6 +97,7 @@ void OpenConnection() {
 				// client closed so clean up
 				Serial.print("Client disconnected ");
 				closeConnection();
+				winbackOffline = true;
 			}
 		}
 		else {
@@ -113,6 +116,7 @@ void OpenConnection() {
 
 void closeConnection() {
 	Serial.println("Connection Closed");
+	winbackOffline = true;
 	alreadyConnected = false;
 	client.stop(); // stop client and tcp buffer.
 	if (server.hasClient()) {   // avoid creating WiFiClient object if no connection,  ESP8266 specific

@@ -19,6 +19,7 @@
     <None Include="wifiServer_WLN.ino" />
     <None Include="ad104_WLN.ino" />
     <None Include="webServer_WLN.ino" />
+    <None Include="accu_WLN.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.esp8266_WLN.vsarduino.h">

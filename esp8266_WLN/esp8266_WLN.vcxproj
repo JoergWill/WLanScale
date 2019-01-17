@@ -113,6 +113,9 @@
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="accu_WLN.ino">
+      <FileType>CppCode</FileType>
+    </None>
     <None Include="ad104_WLN.ino">
       <FileType>CppCode</FileType>
     </None>

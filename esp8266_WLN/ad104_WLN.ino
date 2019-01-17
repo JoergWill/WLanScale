@@ -15,9 +15,9 @@ uint16_t rs104 = 0;
 sint32_t ad104 = 0;
 uint16_t ad104_state = 0;
 
-
 bool responseOK = false;
 bool responseERR = false;
+bool ad104wait = false;
 
 uint32_t max_ad104 = 1000;		// Timeout Antwort von AD104
 uint32_t rdy_ad104 = 250;		// Pause zwischen zwei Abfragen AD104
@@ -29,7 +29,7 @@ void setupAD104() {
 	irSerial.begin(9600, 1, 'N');
 	
 	//TEST
-	state = COF8;
+	//state = COF8;
 }
 
 
@@ -38,6 +38,8 @@ void loopAD104() {
 	// Read serial (6 digits)
 	if (irSerial.available() >= 6) {
 		anzdata = 0;
+		// Reset Flag - wait for answer from ad104
+		ad104wait = false;
 
 		// Read all digits from scale
 		while (irSerial.available() > 0) {
@@ -69,6 +71,10 @@ void loopAD104() {
 	else {
 		// Send Command after Timeout/Received data
 		if ((max_ad104 > 0) && ((millis() - timeout_ad104) > max_ad104)) {
+			// no answer from ad104
+			ad104Offline = ad104wait;
+			// Set Flag - wait for answer from ad104
+			ad104wait = true;
 
 			switch (state) {
 			case MSV:

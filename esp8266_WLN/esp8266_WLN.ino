@@ -7,7 +7,7 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
-#define WINBACK
+//#define WINBACK
 
 uint32_t BAUD = 115200;
 sint32_t weight = 0;
@@ -20,10 +20,12 @@ bool weight_liv_1 = false;			// Grenzwert 1 erreicht/überschritten
 bool weight_liv_2 = false;			// Grenzwert 2 erreicht/überschritten
 bool weight_conf = false;			// Konfigurations-Fehler (COF)
 
+bool winbackOffline = true;
+bool ad104Offline = false;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
-
+	
 	// startup serial console ...
 	Serial.begin(BAUD);
 	Serial.println();
@@ -49,7 +51,11 @@ void loop() {
 
 	// WebServer
 	loopWeb();
+
+	// Analog Input (Akku)
+	//loopAkku();
 }
+
 
 
 
