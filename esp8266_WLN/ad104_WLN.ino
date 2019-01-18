@@ -1,6 +1,10 @@
 #define MSV     0
 #define COF8	2
 
+#define NOV		10	// Nominalwert der Waage
+#define CWT		11	// Abgleichwert in Prozent vom Endgewicht
+#define LDW		12	// Abgleich Nullpunkt
+#define LWT		13	// Abgleich Verstärkung
 
 
 // GPIO14 - D5 - RxD
@@ -64,9 +68,9 @@ void loopAD104() {
 		}
 		//Serial.print(weight_ok);
 		//Serial.print(" ");
-		Serial.print(weight);
-		Serial.print(" ");
-		Serial.println(state);
+		//Serial.print(weight);
+		//Serial.print(" ");
+		//Serial.println(state);
 	}
 	else {
 		// Send Command after Timeout/Received data
@@ -83,6 +87,18 @@ void loopAD104() {
 				break;
 			case COF8:
 				write_COF8_AD104();
+				break;
+			case NOV:
+				write_NOV_AD104();
+				break;
+			case CWT:
+				write_CWT_AD104();
+				break;
+			case LDW:
+				write_LDW_AD104();
+				break;
+			case LWT:
+				write_LWT_AD104();
 				break;
 			}
 
@@ -104,6 +120,27 @@ void state_AD104() {
 		if (responseOK) {
 			state = MSV;
 		}
+		break;
+	case NOV:
+		if (responseOK) {
+			state = CWT;
+		}
+		break;
+	case CWT:
+		if (responseOK) {
+			state = LDW;
+		}
+		break;
+	case LDW:
+		if (responseOK) {
+			state = LWT;
+		}
+		break;
+	case LWT:
+		if (responseOK) {
+			state = MSV;
+		}
+		break;
 	default:
 		break;
 	}
@@ -128,6 +165,39 @@ void write_COF8_AD104() {
 	irSerial.write(0x38); // "8"
 	irSerial.write(0x3B); // ";"
 }
+
+void write_NOV_AD104() {
+	irSerial.write(0x43); // "N"
+	irSerial.write(0x4F); // "O"
+	irSerial.write(0x46); // "V"
+
+
+}
+
+void write_CWT_AD104() {
+	irSerial.write(0x43); // "C"
+	irSerial.write(0x4F); // "W"
+	irSerial.write(0x46); // "T"
+
+
+}
+
+void write_LDW_AD104() {
+	irSerial.write(0x43); // "N"
+	irSerial.write(0x4F); // "O"
+	irSerial.write(0x46); // "V"
+
+
+}
+
+void write_LWT_AD104() {
+	irSerial.write(0x43); // "N"
+	irSerial.write(0x4F); // "O"
+	irSerial.write(0x46); // "V"
+
+
+}
+
 
 void read_MSV_AD104(int anzdata, int i) {
 
@@ -158,7 +228,7 @@ void read_MSV_AD104(int anzdata, int i) {
 				break;
 			}
 			else {
-				// read actual weigt
+				// read actual weight in [gr]
 				weight = ad104;
 
 				// actual weight-state overload

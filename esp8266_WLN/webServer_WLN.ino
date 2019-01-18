@@ -1,11 +1,14 @@
+# include <stdlib.h>
+
 String pageContent;
 ESP8266WebServer webserver;
-//void handleIndexPage(void);
+
 
 void setupWeb() {
 	webserver = ESP8266WebServer(8080);
 	webserver.on("/", handleIndexPage);
 	webserver.on("/xml", handleXML);
+	webserver.on("/params", handleParams);
 
 	webserver.begin();
 }
@@ -14,16 +17,33 @@ void loopWeb() {
 	webserver.handleClient();
 }
 
+void handleParams() {
+	Serial.println("Handle Params");
+	Serial.println();
+
+	if (webserver.args() > 0) {
+		for (uint8_t i = 0; i < webserver.args(); i++) {
+			Serial.print(webserver.argName(i));
+			Serial.print(" ");
+			Serial.println(webserver.arg(i));
+		}
+	}
+	Serial.println();
+}
+
 void handleXML() {
+	char Gewicht[10];
+
 	//Serial.print("XML-Abfrage");
 	pageContent = "<?xml version='1.0' encoding='UTF-8'?>";
 	pageContent += "<winback>";
 	pageContent += "<scale category='ad104'>";
 
 	// format weight in [kg]
-	int vk = weight / 1000;
-	int nk = weight - vk * 1000;
-	pageContent += "<weight lang='de'>" + String(vk) + "." + String(nk) + " kg</weight>";
+	dtostrf(weight/1000, 10, 3, Gewicht);
+	pageContent += "<weight lang='de'>";
+	for (uint8_t i = 0; i<sizeof(Gewicht); i++) pageContent += Gewicht[i];
+	pageContent += " kg</weight>";
 
 	// state serial connection
 	if (ad104Offline) 
@@ -140,19 +160,23 @@ void handleIndexPage(void) {
 	pageContent += "<p>(c) 2019 WinBack GmbH</p>";
 	pageContent += "</div>";
 
-	/* Modal form */
+	/* Modal Form adjust scale */
 	pageContent += "<div id='adj104' class='modal'>";
 	pageContent += "	<form class='modal-content animate'>";
 	pageContent += "	<div class='container'>";
 	pageContent += "		<p style='font-size:20px; text-align:center;'>Abgleich Waage (Nullpunkt und Verst&aumlrkung)</p>";
 	pageContent += "	</div>";
 	pageContent += "	<div class='container'>";
-	pageContent += "		<button type='button'>Nullpunkt</button>";
-	pageContent += "		<label for='uname'>Abgleichgewicht</label>";
-	pageContent += "		<input type='text' placeholder='20,000' name='uname' required>";
-	pageContent += "		<button type='button'>Span</button>";
+	pageContent += "		<label for='maxgew'>Maximalgewicht</label>";
+	pageContent += "		<input id='m1' type='text' name='maxgew'>";
 	pageContent += "	</div>";
 	pageContent += "	<div class='container'>";
+	pageContent += "		<label for='abglgew'>Abgleichgewicht</label>";
+	pageContent += "		<input id='m2' type='text' name='abglgew'>";
+	pageContent += "	</div>";
+	pageContent += "	<div class='container'>";
+	pageContent += "		<button type='button' onclick=\"SendParams('NULL')\" >Nullpunkt</button>";
+	pageContent += "		<button type='button' onclick=\"SendParams('SPAN')\" >Span</button>";
 	pageContent += "		<button type='button' onclick=\"document.getElementById('adj104').style.display='none'\" class='cancelbtn'>Abbrechen</button>";
 	pageContent += "	</div>";
 	pageContent += "	</form>";
@@ -190,7 +214,21 @@ void handleIndexPage(void) {
 	pageContent += " };";
 	pageContent += "xhttp.open('GET','xml',true);";
 	pageContent += "xhttp.send();";
-	pageContent += "}";
+	pageContent += "};";
+
+	// Send Parameter Abgleich Waage
+	pageContent += "function SendParams(func) {";
+	pageContent += " var xhr = new XMLHttpRequest();";
+	pageContent += " 	xhr.open('POST', 'params', true);";
+	pageContent += " 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');";
+	pageContent += " 	xhr.onload = function() {console.log(this.responseText);};";
+	pageContent += "	var p1 = 'maxgew=';";
+	pageContent += "	var m1 = document.querySelector('#m1').value;";
+	pageContent += "	var p2 = '&abglgew=';";
+	pageContent += "	var m2 = document.querySelector('#m2').value;";
+	pageContent += "	var p3 = '&func=';";
+	pageContent += " 	xhr.send(p1.concat(m1).concat(p2).concat(m2).concat(p3).concat(func));";
+	pageContent += "};";
 
 	// When the user clicks anywhere outside of the modal, close it
 	pageContent += "var modal=document.getElementById('adj104');";

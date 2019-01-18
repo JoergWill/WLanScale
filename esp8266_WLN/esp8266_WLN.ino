@@ -7,10 +7,10 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
-//#define WINBACK
+#define WINBACK
 
 uint32_t BAUD = 115200;
-sint32_t weight = 0;
+double weight = 0.0;
 
 bool weight_ovl_netto = false;		// Netto-Overflow	(Tara-Wert zu groﬂ)
 bool weight_ovl_brutto = false;		// Brutto-Overflow	(Skalierung zu empfindlich)
@@ -37,7 +37,7 @@ void setup() {
 	setupAD104();
 
 	//Setup WebServer
-	setupWeb();
+	//setupWeb();
 }
 
 
@@ -50,7 +50,7 @@ void loop() {
 	loopAD104();
 
 	// WebServer
-	loopWeb();
+	// loopWeb();
 
 	// Analog Input (Akku)
 	//loopAkku();
