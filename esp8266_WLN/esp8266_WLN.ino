@@ -10,7 +10,8 @@
 #define WINBACK
 
 uint32_t BAUD = 115200;
-double weight = 0.0;
+double fWeight = 0.0;
+String sWeight = "";
 
 bool weight_ovl_netto = false;		// Netto-Overflow	(Tara-Wert zu groﬂ)
 bool weight_ovl_brutto = false;		// Brutto-Overflow	(Skalierung zu empfindlich)
@@ -22,6 +23,9 @@ bool weight_conf = false;			// Konfigurations-Fehler (COF)
 
 bool winbackOffline = true;
 bool ad104Offline = false;
+
+bool ad104_null = false;
+bool ad104_span = false;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -37,7 +41,7 @@ void setup() {
 	setupAD104();
 
 	//Setup WebServer
-	//setupWeb();
+	setupWeb();
 }
 
 
@@ -50,7 +54,7 @@ void loop() {
 	loopAD104();
 
 	// WebServer
-	// loopWeb();
+	loopWeb();
 
 	// Analog Input (Akku)
 	//loopAkku();

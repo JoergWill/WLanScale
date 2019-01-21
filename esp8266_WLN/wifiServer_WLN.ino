@@ -68,7 +68,7 @@ void SendData() {
 	else {
 		if (DataOK) {
 			client.flush();
-			client.println(weight/1000);
+			client.println(sWeight);
 			DataOK = false;
 			//Logger.Log(LOGLEVEL_DEBUG, "SendData\n %i", weight);
 			delay(50);

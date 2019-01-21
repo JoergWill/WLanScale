@@ -22,13 +22,34 @@ void handleParams() {
 	Serial.println();
 
 	if (webserver.args() > 0) {
-		for (uint8_t i = 0; i < webserver.args(); i++) {
-			Serial.print(webserver.argName(i));
-			Serial.print(" ");
-			Serial.println(webserver.arg(i));
-		}
+		//for (uint8_t i = 0; i < webserver.args(); i++) {
+		//	Serial.print(webserver.argName(i));
+		//	Serial.print(" ");
+		//	Serial.println(webserver.arg(i));
+		//	Serial.println(webserver.arg(i).length());
+		//}
+
+		// Waage Maximal-Gewicht
+		MaxGew = webserver.arg(0);
+		// Waage Abgleich-Gewicht
+		AbglGew = webserver.arg(1);
+		// Abgleich in Prozent der Nennlast
+		float fMaxGew = MaxGew.toFloat();
+		float fAbglGew = AbglGew.toFloat();
+		int fPrzNenn = (fAbglGew * 1000000) / fMaxGew;
+		PrzNenn = String(fPrzNenn);
+
+		// Waage abgleichen Null
+		if (webserver.arg(2) == "NULL") {
+			ad104_null = true;
+			Serial.println("Abgleich Nullpunkt");
+		};
+		// Waage abgleichen Span
+		if (webserver.arg(2) == "SPAN") {
+			ad104_span = true;
+			Serial.println("Abgleich Verstärkung");
+		};
 	}
-	Serial.println();
 }
 
 void handleXML() {
@@ -40,7 +61,7 @@ void handleXML() {
 	pageContent += "<scale category='ad104'>";
 
 	// format weight in [kg]
-	dtostrf(weight/1000, 10, 3, Gewicht);
+	dtostrf(fWeight/1000, 10, 3, Gewicht);
 	pageContent += "<weight lang='de'>";
 	for (uint8_t i = 0; i<sizeof(Gewicht); i++) pageContent += Gewicht[i];
 	pageContent += " kg</weight>";
