@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+  <winback>
+	  <scale category='ad104'>
+
+    	<!-- format weight in [kg] -->
+      <weight lang='de'>4.000 kg</weight>
+
+		  <ad104>&#9989; AD104</ad104>
+	
+  		<wbcon>&#9989; WinBack</wbcon>
+
+  	</scale>
+	</winback>

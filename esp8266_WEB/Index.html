@@ -1,0 +1,589 @@
+﻿<!DOCTYPE html>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+    }
+    /* Style the header */
+    .header {
+        padding: 1px;
+        text-align: center;
+        background: #2d85c5;
+        color: white;
+    }
+        /* Increase the font size of the h1 element */
+        .header h1 {
+            font-size: 80px;
+        }
+    /* Footer */
+    .footer {
+        padding: 1px;
+        padding-left: 10px;
+        text-align: left;
+        background: #ddd;
+        margin-top: 0px;
+        font-size: 10px;
+    }
+    /* Left column */
+    .leftcolumn {
+        float: left;
+        width: 75%;
+    }
+    /* Right column */
+    .rightcolumn {
+        float: right;
+        width: 25%;
+        padding-left: 20px;
+    }
+    /* Clear floats after the columns */
+    .row:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+    /* Style the top navigation bar */
+    .navbar {
+        overflow: hidden;
+        background-color: #333;
+    }
+        /* Style the navigation bar links */
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+            /* Right-aligned link */
+            .navbar a.right {
+                float: right;
+            }
+            /* Change color on hover */
+            .navbar a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+    /* The Modal(background) */
+    /* Hidden by default, Stay in place, Sit on top, Full width, Full Height, Enable scroll if needed */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+    /* Modal Content/Box, 5% from the top, 15% from the bottom and centered */
+    .modal-content {
+        background-color: #ddd;
+        margin: 5% auto 15% auto;
+        border: 1px solid #888;
+        width: 80%;
+    }
+    /* Add Zoom Animation */
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s;
+    }
+
+    @-webkit-keyframes animatezoom {
+        from {
+            -webkit-transform: scale(0);
+        }
+
+        to {
+            -webkit-transform: scale(1);
+        }
+    }
+
+    @keyframes animatezoom {
+        from {
+            transform: scale(0);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+    /* Set a style for all buttons */
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 8px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    /* Extra styles for the cancel button */
+    .cancelbtn {
+        width: 20%;
+        padding: 10px 20;
+        background-color: #f44336;
+    }
+
+
+    #regForm {
+        background-color: #ffffff;
+        margin: 100px auto;
+        font-family: Arial;
+        padding: 20px;
+        padding-bottom: 100px;
+        width: 50%;
+        min-width: 400px;
+    }
+
+    input {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }
+        /* Mark input boxes that gets an error on validation: */
+        input.invalid {
+            background-color: #ffdddd;
+        }
+    /* Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+        .step.active {
+            opacity: 1;
+        }
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+            background-color: #4CAF50;
+        }
+
+    /* The container must be positioned relative: */
+    .custom-select {
+        position: relative;
+        font-family: Arial;
+    }
+
+        .custom-select select {
+            display: none; /*hide original SELECT element: */
+        }
+
+    .select-selected {
+        background-color: DodgerBlue;
+    }
+
+        /* Style the arrow inside the select element: */
+        .select-selected:after {
+            position: absolute;
+            content: "";
+            top: 14px;
+            right: 10px;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-color: #fff transparent transparent transparent;
+        }
+
+        /* Point the arrow upwards when the select box is open (active): */
+        .select-selected.select-arrow-active:after {
+            border-color: transparent transparent #fff transparent;
+            top: 7px;
+        }
+
+    /* style the items (options), including the selected item: */
+    .select-items div, .select-selected {
+        color: #ffffff;
+        padding: 8px 16px;
+        border: 1px solid transparent;
+        border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+        cursor: pointer;
+    }
+
+    /* Style items (options): */
+    .select-items {
+        position: absolute;
+        background-color: DodgerBlue;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+    }
+
+    /* Hide the items when the select box is closed: */
+    .select-hide {
+        display: none;
+    }
+
+    .select-items div:hover, .same-as-selected {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<html lang='de'>
+<head>
+    <meta charset='UTF-8' />
+    <title>WinBack</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <!-- Headline -->
+    <div class='footer'>
+        <p style='font-size:16px;'>WinBack WLan Waage</p>
+    </div>
+
+    <!-- Create two unequal columns that floats next to each other -->
+    <div class='row'>
+        <div class='leftcolumn'>
+            <div class='header'>
+                <h1 id='weight'></h1>
+            </div>
+        </div>
+
+        <div class='rightcolumn'>
+            <p>Status Verbindung:</p>
+            <p id='ad104'></p>
+            <p id='wbcon'></p>
+        </div>
+    </div>
+
+    <div class='navbar'>
+        <a onclick='document.getElementById("adj104").style.display ="block"'>Scale</a>
+        <a href='#'>Admin</a>
+        <a href='#' class='right'>Home</a>
+    </div>
+
+    <!-- Footer -->
+    <div class='footer'>
+        <p>(c) 2019 WinBack GmbH</p>
+    </div>
+
+    <!-- Modal Form adjust scale -->
+    <div id='adj104' class='modal'>
+        <form id="regForm" class='modal-content animate'>
+            <!-- One "tab" for each step in the form: -->
+            <div class="tab">
+                <div class='container'>
+                    <p style='font-size:20px; text-align:center;'>Abgleich Waage</p>
+                </div>
+                <div class='container'>
+                    <label for='maxgew'>Maximalgewicht</label>
+                    <input id='m1' type='text' name='maxgew'>
+                </div>
+                <div class='container'>
+                    <label for='abglgew'>Abgleichgewicht</label>
+                    <input id='m2' type='text' name='abglgew'>
+                </div>
+            </div>
+            <div class="tab">
+                <div class='container'>
+                    <p style='font-size:20px; text-align:center;'>Abgleich Waage</p>
+                </div>
+                <div class='container'>
+                    <!-- Surround the select box within a "custom-select" DIV element.Remember to set the width: -->
+                    <label>Filterauswahl</label>
+                    <div class="custom-select" style="width:200px;">
+                        <select>
+                            <option value="0">Standard-Filter</option>
+                            <option value="1">Standard-Filter</option>
+                            <option value="2">Digital-Filter</option>
+                        </select>
+                    </div>
+                </div>
+                <div class='container'>
+                    <!-- Surround the select box within a "custom-select" DIV element.Remember to set the width: -->
+                    <label>Grenzfrequenz</label>
+                    <div class="custom-select" style="width:200px;">
+                        <select>
+                            <option value="0">40 Hz</option>
+                            <option value="1">40 Hz</option>
+                            <option value="2">18 Hz</option>
+                            <option value="3">8 Hz</option>
+                            <option value="4">4 Hz</option>
+                            <option value="5">2 Hz</option>
+                            <option value="6">1 Hz</option>
+                            <option value="7">0,5 Hz</option>
+                            <option value="8">0,25 Hz</option>
+                        </select>
+                    </div>
+                </div>
+                <div class='container'>
+                    <!-- Surround the select box within a "custom-select" DIV element.Remember to set the width: -->
+                    <label>Mittelwert aus x Messungen</label>
+                    <div class="custom-select" style="width:200px;">
+                        <select>
+                            <option value="0">aus</option>
+                            <option value="1">aus</option>
+                            <option value="2">2</option>
+                            <option value="3">4</option>
+                            <option value="4">8</option>
+                            <option value="5">16</option>
+                            <option value="6">32</option>
+                            <option value="7">64</option>
+                            <option value="8">128</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tab">
+                Birthday:
+                <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
+                <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
+                <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
+            </div>
+            <div class="tab">
+                Login Info:
+                <p><input placeholder="Username..." oninput="this.className = ''" name="uname"></p>
+                <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p>
+            </div>
+            <div style="float:right;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+
+            <!-- Circles which indicates the steps of the form: -->
+            <div style="text-align:center;margin-top:40px;">
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Javascript -->
+    <script>
+        var myVar = setInterval(myTimer, 1000);
+        var m1 = 30000;
+        var m2 = 20000;
+
+
+        function myTimer() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+
+                    // weight in [kg]
+                    var x = xmlDoc.getElementsByTagName('weight')[0];
+                    var w = x.childNodes[0];
+                    document.getElementById('weight').innerHTML = w.nodeValue;
+
+                    // state serial connection ad104
+                    var x = xmlDoc.getElementsByTagName('ad104')[0];
+                    var w = x.childNodes[0];
+                    document.getElementById('ad104').innerHTML = w.nodeValue;
+
+                    // state winback-ip-connection
+                    var x = xmlDoc.getElementsByTagName('wbcon')[0];
+                    var w = x.childNodes[0];
+                    document.getElementById('wbcon').innerHTML = w.nodeValue;
+                }
+            };
+            xhttp.open('GET', 'w.xml', true);
+            xhttp.send();
+        };
+
+        // Send Parameter Abgleich Waage
+        function SendParams(func) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'params', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () { console.log(this.responseText); };
+            var p1 = 'maxgew=';
+            var m1 = document.querySelector('#m1').value;
+            var p2 = '&abglgew=';
+            var m2 = document.querySelector('#m2').value;
+            var p3 = '&func=';
+            xhr.send(p1.concat(m1).concat(p2).concat(m2).concat(p3).concat(func));
+        };
+
+
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the crurrent tab
+
+        function showTab(n) {
+            // This function will display the specified tab of the form...
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+            //... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+            } else {
+                document.getElementById("prevBtn").style.display = "inline";
+            }
+            if (n == (x.length - 1)) {
+                document.getElementById("nextBtn").innerHTML = "Submit";
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Next";
+            }
+            //... and run a function that will display the correct step indicator:
+            fixStepIndicator(n)
+        }
+
+        function nextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // Exit the function if any field in the current tab is invalid:
+            if (n == 1 && !validateForm()) return false;
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab + n;
+            // if you have reached the end of the form...
+            if (currentTab >= x.length) {
+                // ... the form gets submitted:
+                document.getElementById("regForm").submit();
+                return false;
+            }
+            // Otherwise, display the correct tab:
+            showTab(currentTab);
+        }
+
+        function validateForm() {
+            // This function deals with validation of the form fields
+            var x, y, i, valid = true;
+            x = document.getElementsByClassName("tab");
+            y = x[currentTab].getElementsByTagName("input");
+            // A loop that checks every input field in the current tab:
+            for (i = 0; i < y.length; i++) {
+                // If a field is empty...
+                if (y[i].value == "") {
+                    // add an "invalid" class to the field:
+                    y[i].className += " invalid";
+                    // and set the current valid status to false
+                    valid = false;
+                }
+            }
+            // If the valid status is true, mark the step as finished and valid:
+            if (valid) {
+                document.getElementsByClassName("step")[currentTab].className += " finish";
+            }
+            return valid; // return the valid status
+        }
+
+        function fixStepIndicator(n) {
+            // This function removes the "active" class of all steps...
+            var i, x = document.getElementsByClassName("step");
+            for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+            }
+            //... and adds the "active" class on the current step:
+            x[n].className += " active";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        var modal = document.getElementById('adj104');
+        window.onclick = function (event) { if (event.target == modal) { modal.style.display = 'none'; } }
+
+
+var x, i, j, selElmnt, a, b, c;
+/* Look for any elements with the class "custom-select": */
+x = document.getElementsByClassName("custom-select");
+for (i = 0; i < x.length; i++) {
+  selElmnt = x[i].getElementsByTagName("select")[0];
+  /* For each element, create a new DIV that will act as the selected item: */
+  a = document.createElement("DIV");
+  a.setAttribute("class", "select-selected");
+  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  x[i].appendChild(a);
+  /* For each element, create a new DIV that will contain the option list: */
+  b = document.createElement("DIV");
+  b.setAttribute("class", "select-items select-hide");
+  for (j = 1; j < selElmnt.length; j++) {
+    /* For each option in the original select element,
+    create a new DIV that will act as an option item: */
+    c = document.createElement("DIV");
+    c.innerHTML = selElmnt.options[j].innerHTML;
+    c.addEventListener("click", function(e) {
+        /* When an item is clicked, update the original select box,
+        and the selected item: */
+        var y, i, k, s, h;
+        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+        h = this.parentNode.previousSibling;
+        for (i = 0; i < s.length; i++) {
+          if (s.options[i].innerHTML == this.innerHTML) {
+            s.selectedIndex = i;
+            h.innerHTML = this.innerHTML;
+            y = this.parentNode.getElementsByClassName("same-as-selected");
+            for (k = 0; k < y.length; k++) {
+              y[k].removeAttribute("class");
+            }
+            this.setAttribute("class", "same-as-selected");
+            break;
+          }
+        }
+        h.click();
+    });
+    b.appendChild(c);
+  }
+  x[i].appendChild(b);
+  a.addEventListener("click", function(e) {
+    /* When the select box is clicked, close any other select boxes,
+    and open/close the current select box: */
+    e.stopPropagation();
+    closeAllSelect(this);
+    this.nextSibling.classList.toggle("select-hide");
+    this.classList.toggle("select-arrow-active");
+  });
+}
+
+function closeAllSelect(elmnt) {
+  /* A function that will close all select boxes in the document,
+  except the current select box: */
+  var x, y, i, arrNo = [];
+  x = document.getElementsByClassName("select-items");
+  y = document.getElementsByClassName("select-selected");
+  for (i = 0; i < y.length; i++) {
+    if (elmnt == y[i]) {
+      arrNo.push(i)
+    } else {
+      y[i].classList.remove("select-arrow-active");
+    }
+  }
+  for (i = 0; i < x.length; i++) {
+    if (arrNo.indexOf(i)) {
+      x[i].classList.add("select-hide");
+    }
+  }
+}
+
+/* If the user clicks anywhere outside the select box,
+then close all select boxes: */
+document.addEventListener("click", closeAllSelect);
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
