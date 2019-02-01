@@ -152,7 +152,7 @@
         padding: 10px;
         width: 100%;
         font-size: 17px;
-        font-family: Raleway;
+        font-family: Arial;
         border: 1px solid #aaaaaa;
     }
         /* Mark input boxes that gets an error on validation: */
@@ -194,7 +194,7 @@
         }
 
     .select-selected {
-        background-color: DodgerBlue;
+        background-color: dodgerblue;
     }
 
         /* Style the arrow inside the select element: */
@@ -205,7 +205,7 @@
             right: 10px;
             width: 0;
             height: 0;
-            border: 6px solid transparent;
+            border: 10px solid transparent;
             border-color: #fff transparent transparent transparent;
         }
 
@@ -227,11 +227,11 @@
     /* Style items (options): */
     .select-items {
         position: absolute;
-        background-color: DodgerBlue;
+        background-color: dodgerblue;
         top: 100%;
         left: 0;
         right: 0;
-        z-index: 99;
+        z-index: 55;
     }
 
     /* Hide the items when the select box is closed: */
@@ -306,17 +306,6 @@
                 </div>
                 <div class='container'>
                     <!-- Surround the select box within a "custom-select" DIV element.Remember to set the width: -->
-                    <label>Filterauswahl</label>
-                    <div class="custom-select" style="width:200px;">
-                        <select>
-                            <option value="0">Standard-Filter</option>
-                            <option value="1">Standard-Filter</option>
-                            <option value="2">Digital-Filter</option>
-                        </select>
-                    </div>
-                </div>
-                <div class='container'>
-                    <!-- Surround the select box within a "custom-select" DIV element.Remember to set the width: -->
                     <label>Grenzfrequenz</label>
                     <div class="custom-select" style="width:200px;">
                         <select>
@@ -349,17 +338,27 @@
                         </select>
                     </div>
                 </div>
+                <div class='container'>
+                    <!-- Surround the select box within a "custom-select" DIV element.Remember to set the width: -->
+                    <label>Filterauswahl</label>
+                    <div class="custom-select" style="width:200px;">
+                        <select>
+                            <option value="0">Standard-Filter</option>
+                            <option value="1">Standard-Filter</option>
+                            <option value="2">Digital-Filter</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="tab">
-                Birthday:
-                <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
-                <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
-                <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
+                <div class='container'>
+                    <p style='font-size:20px; text-align:center;'>Tarieren (Waage muss leer sein)</p>
+                </div>
             </div>
             <div class="tab">
-                Login Info:
-                <p><input placeholder="Username..." oninput="this.className = ''" name="uname"></p>
-                <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p>
+                <div class='container'>
+                    <p style='font-size:20px; text-align:center;'>Abgleichen (Gewicht auflegen)</p>
+                </div>
             </div>
             <div style="float:right;">
                 <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>

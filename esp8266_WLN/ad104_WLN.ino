@@ -294,7 +294,7 @@ void read_MSV_AD104(int anzdata, int i) {
 				// read actual weight in [gr]
 				fWeight = ad104;
 				fWeight = fWeight / 256;
-				sWeight = String(ad104);
+				sWeight = String(fWeight/100);
 
 				// actual weight-state overload
 				weight_ovl_netto = (ad104_state && 0x0001);
